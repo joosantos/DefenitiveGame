@@ -33,6 +33,12 @@ public class Spritesheet {
     public static Spritesheet dummy_down = new Spritesheet(dummy, 1, 1, 1, 1, 32);
     public static Spritesheet dummy_left = new Spritesheet(dummy, 1, 0, 1, 1, 32);
 
+    public static Spritesheet test = new Spritesheet("res/textures/sheets/archer.png", 256, 256);
+    public static Spritesheet test_up = new Spritesheet(test, 1, 1, 1, 1, 96);
+    public static Spritesheet test_right = new Spritesheet(test, 1, 1, 1, 1, 96);
+    public static Spritesheet test_down = new Spritesheet(test, 1, 1, 1, 1, 96);
+    public static Spritesheet test_left = new Spritesheet(test, 1, 1, 1, 1, 96);
+
     private Sprite[] sprites;
 
     // Extract sprites from sprite sheet

@@ -32,9 +32,9 @@ public class Player extends Mob implements EventListener {
     private Keyboard input;
     private Sprite sprite;
     boolean walking = false;
-    private AnimatedSprite up = new AnimatedSprite(Spritesheet.player_up, 32, 32, 3);
-    private AnimatedSprite right = new AnimatedSprite(Spritesheet.player_right, 32, 32, 3);
-    private AnimatedSprite down = new AnimatedSprite(Spritesheet.player_down, 32, 32, 3);
+    private AnimatedSprite up = new AnimatedSprite(Spritesheet.test_up, 96, 96, 1);
+    private AnimatedSprite right = new AnimatedSprite(Spritesheet.test_right, 96, 96, 1);
+    private AnimatedSprite down = new AnimatedSprite(Spritesheet.test_down, 96, 96, 1);
     //private AnimatedSprite left = new AnimatedSprite(Spritesheet.player_left, 32, 32, 3);
 
     private AnimatedSprite animSprite = down; // Holds current animated sprite, down by default
@@ -273,7 +273,7 @@ public class Player extends Mob implements EventListener {
 
         sprite = animSprite.getSprite(); // new animation
 
-        screen.renderMob((int) (x - 16),(int) (y - 16), sprite, flip);//16 is half the size of the player, centering them
+        screen.renderMob((x - 16),(y - 16), sprite, flip, sprite.getHeight());//16 is half the size of the player, centering them
 
         //Rendering 4 diff things isn't slower
 

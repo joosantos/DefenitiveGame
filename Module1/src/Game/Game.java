@@ -23,9 +23,9 @@ import java.util.List;
 public class Game extends Canvas implements Runnable, EventListener { //runnable makes it so that the thread with "this" executes the "run" function
     private static final long serialVersionUID = 1L; //optional convention of Java
 
-    public static int width = 300 - 80; //was 300; TODO multiply everything by 3 nd change scale to 1
-    public static int height = 168;//300 / 16 * 9; TODO at 1200 - 360, 672, 1, paarticles spawning out of place
-    public static int scale = 3; // TODO this makes pixels 3* as big on screen, change it to one for better art?
+    public static int width = 1200 - 360; //was 300; TODO multiply everything by 3 and change scale to 1
+    public static int height = 672;//300 / 16 * 9; TODO at 1200 - 360, 672, 1, particles spawning out of place
+    public static int scale = 1; // TODO this makes pixels 3* as big on screen, change it to one for better art?
     private static String title = "ROTMG";
 
     private Thread thread;

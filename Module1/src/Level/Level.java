@@ -88,7 +88,7 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
             players.get(i).tick();
             if(players.get(i).isRemoved()) players.remove(i);
         }
-        // TODO Not rly, but he madea remove function called here that runs through everything again and checks isRemoved, maybe current method messes up indexes
+        // TODO Not rly, but he made a remove function called here that runs through everything again and checks isRemoved, maybe current method messes up indexes
     }
 
     public void setScroll (int xScroll, int yScroll){
