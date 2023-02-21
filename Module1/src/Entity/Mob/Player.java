@@ -65,9 +65,9 @@ public class Player extends Mob implements EventListener {
         sprite = Sprite.player_forward; //just in case, to avoid crashes
         fireRate = WizardProjectile.FIRE_RATE;
         ui = Game.getUIManager();
-        // TODO remove * 3 if change scale to 1
         // Had a - 80 with width b4 * 3 before made game window and UI separate
-        UIPanel panel = (UIPanel) new UIPanel(new Vector2i((Game.width) * 3,0), new Vector2i(80 * 3, Game.width * 3)).setColor(0x4f4f4f);
+        // TODO Changed things here while working on fullscreen, check static nºs and scale
+        UIPanel panel = (UIPanel) new UIPanel(new Vector2i((Game.width * Game.scale),0), new Vector2i(360 * Game.scale, Game.width * Game.scale)).setColor(0x4f4f4f);
         ui.addPanel(panel);
         // Positions here are dependent on parent position
         // TODO x is 40 to leave room for class sprite
@@ -76,7 +76,7 @@ public class Player extends Mob implements EventListener {
         nameLabel.setFont(new Font("Verdana", Font.PLAIN, 24));
         nameLabel.dropShadow = true;
         panel.addComponent(nameLabel);
-        // The setters returning the object itself allows for these one liners with a setter at the end
+        // The setters returning the object itself allows for these one-liners with a setter at the end
 
 
         // XP Bar
@@ -159,7 +159,7 @@ public class Player extends Mob implements EventListener {
             @Override
             public void released(UIButton button) {
                 button.setImage(imageHover);
-                //System.exit(0);
+                System.exit(0);
             }
 
             @Override

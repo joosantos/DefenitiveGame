@@ -23,8 +23,10 @@ import java.util.List;
 public class Game extends Canvas implements Runnable, EventListener { //runnable makes it so that the thread with "this" executes the "run" function
     private static final long serialVersionUID = 1L; //optional convention of Java
 
-    public static int width = 1200 - 360; //was 300; TODO multiply everything by 3 and change scale to 1
-    public static int height = 672;//300 / 16 * 9; TODO at 1200 - 360, 672, 1, particles spawning out of place
+    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    public static int width = (int) (screenSize.getWidth() - 360); //was 300; TODO multiply everything by 3 and change scale to 1
+    public static int height = (int) screenSize.getHeight();//300 / 16 * 9; TODO at 1200 - 360, 672, 1, particles spawning out of place
     public static int scale = 1; // TODO this makes pixels 3* as big on screen, change it to one for better art?
     private static String title = "ROTMG";
 
@@ -181,6 +183,8 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
         Graphics g = bs.getDrawGraphics();
         // TODO check out ep115 and ep116 for more insight on high resolution
+
+
         g.drawImage(image, 0, 0, getWindowWidth(), getWindowHeight(), null);
         //g.drawImage(image, 0, 0, width, height, null); // TODO this loads at true size
         uiManager.render(g); // Comment this out to check if rendering under UI
@@ -194,13 +198,23 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
     public static void main(String[] args) {
         Game game = new Game();
+        // Move the undecorated line further down for gratuitous errors; it removes header on window
+        game.frame.setUndecorated(true);
         game.frame.setResizable(false);
         game.frame.setTitle(Game.title);
         game.frame.add(game);
         game.frame.pack();
         game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.frame.setLocationRelativeTo(null); //game.frame.setLocation(null);
+        //
+
         game.frame.setVisible(true);
+
+        //This makes it full screen
+        game.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.frame.setVisible(true);
+
 
         game.start();
         //game.requestFocus(); //to skip having to click window
