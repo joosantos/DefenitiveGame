@@ -7,5 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="RainCloud-Serialization" exported="" />
+    <orderEntry type="module" module-name="RainServer" exported="" />
   </component>
 </module>

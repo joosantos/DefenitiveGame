@@ -10,7 +10,11 @@ import Input.Mouse;
 import Level.Level;
 import Level.TileCoordinate;
 import Graphics.UI.UIManager;
+import Net.Client;
 import Net.Player.NetPlayer;
+import com.thecherno.raincloud.serialization.RCDatabase;
+import com.thecherno.raincloud.serialization.RCField;
+import com.thecherno.raincloud.serialization.RCObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,9 +29,9 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    public static int width = (int) (screenSize.getWidth() - 360); //was 300; TODO multiply everything by 3 and change scale to 1
-    public static int height = (int) screenSize.getHeight();//300 / 16 * 9; TODO at 1200 - 360, 672, 1, particles spawning out of place
-    public static int scale = 1; // TODO this makes pixels 3* as big on screen, change it to one for better art?
+    public static int width = (int) (screenSize.getWidth() - 360); //was 300;
+    public static int height = (int) screenSize.getHeight();//300 / 16 * 9;
+    public static int scale = 1;
     private static String title = "ROTMG";
 
     private Thread thread;
@@ -57,6 +61,17 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         uiManager = new UIManager();
         frame = new JFrame();
         key = new Keyboard();
+
+        //TODO Server connection here!
+
+        Client client = new Client("localhost", 8192);
+        if(!client.connect()){
+            //TODO handle failed connection
+        }
+
+        RCDatabase db = RCDatabase.DeserializeFromFile("res/data/screen.bit");
+        client.send(db);
+
         //level = new RandomLevel(64,64);
         level = Level.spawn; //holds the path
         addLayer(level); // add it to layer list to get it auto updated with rest
@@ -73,6 +88,18 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
 
+        save();
+    }
+
+    private void save(){
+        RCDatabase db = new RCDatabase("Screen");
+
+        RCObject obj = new RCObject("Resolution");
+        obj.addField(RCField.Integer("width",width));
+        obj.addField(RCField.Integer("height",height));
+        db.addObject(obj);
+
+        db.serializeToFile("res/data/screen.bit");
     }
 
     //window is in name cause canvas already has a getWidth() method

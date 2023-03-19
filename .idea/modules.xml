@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Module1/Module1.iml" filepath="$PROJECT_DIR$/Module1/Module1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../JavaSerialization-master/JavaSerialization-master/RainCloud-Serialization/RainCloud-Serialization.iml" filepath="$PROJECT_DIR$/../JavaSerialization-master/JavaSerialization-master/RainCloud-Serialization/RainCloud-Serialization.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../RainServer/RainServer.iml" filepath="$PROJECT_DIR$/../RainServer/RainServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/res/res.iml" filepath="$PROJECT_DIR$/res/res.iml" />
     </modules>
   </component>
