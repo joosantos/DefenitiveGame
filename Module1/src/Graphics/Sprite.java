@@ -26,6 +26,8 @@ public class Sprite {
     public static Sprite spawn_floor_boards = new Sprite(16,1,2, Spritesheet.spawn_level_tiles);
     public static Sprite spawn_floor = new Sprite(16,1,1, Spritesheet.spawn_level_tiles);//My own addition
 
+    public static Sprite spawn_portal = new Sprite(16,2,1, Spritesheet.spawn_level_tiles);//My own addition
+
 
 
 

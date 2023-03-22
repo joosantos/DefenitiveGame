@@ -30,6 +30,10 @@ public class UIButton extends UIComponent implements UIButtonListener{
         color = new Color(0xAAAAAA);
     }
 
+    public UILabel getLabel() {
+        return label;
+    }
+
     public UIButton(Vector2i position, BufferedImage image) {
         super(position, new Vector2i(image.getWidth(), image.getHeight()));
         setImage(image);

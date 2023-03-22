@@ -2,6 +2,7 @@ package Level.Tile;
 
 import Graphics.Screen;
 import Graphics.Sprite;
+import Level.RandomLevel;
 import Level.Tile.Spawn_level.*;
 
 public class Tile {
@@ -20,6 +21,9 @@ public class Tile {
     public static Tile spawn_floor_boards = new SpawnFloorTile(Sprite.spawn_floor_boards);
     public static Tile spawn_floor = new SpawnFloorTile(Sprite.spawn_floor);
 
+    public static Tile spawn_portal = new PortalTile(Sprite.spawn_portal, new RandomLevel(64,64));
+
+
     public static final int col_spawn_grass = 0xFF23FF44;
     public static final int col_spawn_wall1 = 0xFF4A5D67;
     public static final int col_spawn_hedge = 0xFF117A20;
@@ -27,6 +31,7 @@ public class Tile {
     public static final int col_spawn_wall2 = 0; //unused
     public static final int col_spawn_water = 0; //unused
     public static final int col_spawn_floor_boards = 0xFF864815;
+    public static final int col_spawn_portal = 0xFFFF2323;
 
 
     public Tile (Sprite sprite){ //forces all Tiles to have a sprite
@@ -37,6 +42,10 @@ public class Tile {
     }
 
     public boolean isSolid(){ //collision
+        return false;
+    }
+
+    public boolean isPortal(){ //collision
         return false;
     }
 

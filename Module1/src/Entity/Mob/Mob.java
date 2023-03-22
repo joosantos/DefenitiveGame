@@ -25,7 +25,7 @@ public abstract class Mob extends Entity {
 
     protected Direction dir;
 
-    public void move(double xa, double ya){ // TODO should be protected instead of public
+    protected void move(double xa, double ya){
         if (ya > 0) dir = Direction.UP;
         else if (ya < 0) dir = Direction.DOWN;
         else if (xa > 0) dir = Direction.RIGHT; //swapping 1 and 3 to bottom gives priority to horizontal sprites
@@ -61,7 +61,7 @@ public abstract class Mob extends Entity {
         }
     }
 
-    private int abs(double i){
+    protected int abs(double i){
         if (i < 0) return -1;
         return 1;
     }

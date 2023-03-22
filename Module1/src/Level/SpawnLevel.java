@@ -4,6 +4,8 @@ import Entity.Mob.Chaser;
 import Entity.Mob.Dummy;
 import Entity.Mob.Shooter;
 import Entity.Mob.Star;
+import Entity.Portal;
+import Graphics.Sprite;
 import Level.Tile.Tile;
 
 import javax.imageio.ImageIO;
@@ -33,9 +35,10 @@ public class SpawnLevel extends Level{ //ep 52
             e.printStackTrace();
             System.out.println("Exception! Could not load level file!");
         }
-        add(new Shooter(10,55));
-        add(new Shooter(20,55));
-        add(new Shooter(20,60));
+        //add(new Shooter(10,55));
+        //add(new Shooter(20,55));
+        //add(new Shooter(20,60));
+        //add(new Portal(20,70, Sprite.flower, random));
 
     }
 

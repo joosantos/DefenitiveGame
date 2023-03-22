@@ -18,6 +18,7 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
     protected int[] tilesInt;
     protected int[] tiles;
     public static Level spawn = new SpawnLevel("res/levels/spawnLevel.png");
+    public static Level random = new RandomLevel(64,64);
 
     private int xScroll, yScroll;
 
@@ -274,6 +275,7 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
         if (tiles[x + y * width] == Tile.col_spawn_floor_boards) return Tile.spawn_floor_boards;
         if (tiles[x + y * width] == Tile.col_spawn_hedge) return Tile.spawn_hedge;
         if (tiles[x + y * width] == Tile.col_spawn_wall1) return Tile.spawn_wall1;
+        if (tiles[x + y * width] == Tile.col_spawn_portal) return Tile.spawn_portal;
         //unused
         if (tiles[x + y * width] == Tile.col_spawn_wall2) return Tile.spawn_wall2;
         if (tiles[x + y * width] == Tile.col_spawn_water) return Tile.spawn_water;

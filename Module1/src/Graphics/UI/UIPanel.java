@@ -21,6 +21,11 @@ public class UIPanel extends UIComponent{
         components.add(component);
     }
 
+    public void removeComponent(UIComponent component){
+        //component.init(this);
+        components.remove(component);
+    }
+
     public void tick(){
         for (UIComponent component : components) {
             component.setOffset(position);

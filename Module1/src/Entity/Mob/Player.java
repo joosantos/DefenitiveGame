@@ -44,8 +44,22 @@ public class Player extends Mob implements EventListener {
     private UIManager ui;
     private UIProgressBar uiHealthBar,uiManaBar,uiExperienceBar;
     private UIButton button;
+    private UIButton buttonPortal = new UIButton(new Vector2i(10, 400), new Vector2i(40, 30)){               @Override
+        public void pressed (UIButton button){
+            button.setColor(0xededed);
+            button.action(button);
+            button.ignoreNextPress();
+        }
+
+        @Override
+        public void action(UIButton button) {
+            System.out.println("Action!");
+        }
+    };
 
     private BufferedImage image, imageHover, imagePressed;
+
+    private UIPanel panel = (UIPanel) new UIPanel(new Vector2i((Game.width * Game.scale),0), new Vector2i(360 * Game.scale, Game.width * Game.scale)).setColor(0x4f4f4f);
 
     private boolean shooting = false;
 
@@ -64,10 +78,10 @@ public class Player extends Mob implements EventListener {
         this.input = input;
         sprite = Sprite.player_forward; //just in case, to avoid crashes
         fireRate = WizardProjectile.FIRE_RATE;
+        // TODO panel was here
         ui = Game.getUIManager();
         // Had a - 80 with width b4 * 3 before made game window and UI separate
         // TODO Changed things here while working on fullscreen, check static nºs and scale
-        UIPanel panel = (UIPanel) new UIPanel(new Vector2i((Game.width * Game.scale),0), new Vector2i(360 * Game.scale, Game.width * Game.scale)).setColor(0x4f4f4f);
         ui.addPanel(panel);
         // Positions here are dependent on parent position
         // TODO x is 40 to leave room for class sprite
@@ -284,5 +298,71 @@ public class Player extends Mob implements EventListener {
         screen.renderPlayer(xx,yy + 16, Sprite.player2);
         screen.renderPlayer(xx + 16,yy + 16, Sprite.player3);*/
 
+    }
+
+
+    protected void move(double xa, double ya){
+        if (ya > 0) dir = Direction.UP;
+        else if (ya < 0) dir = Direction.DOWN;
+        else if (xa > 0) dir = Direction.RIGHT; //swapping 1 and 3 to bottom gives priority to horizontal sprites
+        else if (xa < 0) dir = Direction.LEFT;
+
+        while (xa != 0){
+            if (Math.abs(xa) >= 1){ // keeps decimals to add up
+                if (!collision(abs(xa),ya)){
+                    this.x += abs(xa); // allows faster movement with proper collision
+                }
+                xa -= abs(xa);
+            }else{ // Add decimals that will not increment instantly
+                if (!collision(abs(xa),ya)){
+                    this.x += xa; // allows faster movement with proper collision
+                }
+                xa = 0;
+            }
+        }
+
+        while (ya != 0){
+            if (Math.abs(ya) >= 1){ // keeps decimals to add up
+                if (!collision(xa,abs(ya))){
+                    this.y += abs(ya); // allows faster movement with proper collision
+                }
+                ya -= abs(ya);
+            }else{ // Add decimals that will not increment instantly
+                if (!collision(xa,abs(ya))){
+                    this.y += ya; // allows faster movement with proper collision
+                }
+                ya = 0;
+            }
+
+        }
+    }
+
+    private boolean collision(double xa, double ya){
+        //check each corner of tile
+        for (int c = 0; c < 4; c++){ //check current location + movement, divide by 16 to convert from pix to tiles
+            double xt = ((x + xa) - c % 2 * 15) / 16;// can't do bitwise operations on doubles ( >> 4)
+            double yt = ((y + ya) - c / 2 * 15) / 16; // TODO changed 2 * 16 to 2 * 15 in ep102 for mob not getting stuck in corners
+            // Right side corners
+            int ix = (int) Math.ceil(xt); // Rounds the number up with Math.ceil
+            int iy = (int) Math.ceil(yt);
+            if ( c % 2 == 0) ix = (int) Math.floor(xt); // Right side needs diff rounding
+            if ( c / 2 == 0) iy = (int) Math.floor(yt); // Same for upside
+            if(level.getTile(ix, iy).isSolid()) return true;
+            if(level.getTile(ix, iy).isPortal()){
+                buttonPortal.setText("Enter");
+                panel.addComponent(buttonPortal);
+            }else{
+                panel.removeComponent(buttonPortal);
+                panel.removeComponent(buttonPortal.getLabel());
+            }
+        }
+        /*
+        Changing 2(14) to a larger number increases the width, changing -1(-8) positions the collision box.
+        Play with the code, first try it at 0. You'll see the collision zone is just a line.
+        Increase it to 10 and it'll be about the size of a tile (depends on your sprites).
+        You'll see that the box is the right size, but it's shifted to the left,
+        use the second number to shift it right and then tweak the numbers until it's perfect.
+        */
+        return false;
     }
 }
