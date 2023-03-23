@@ -2,6 +2,7 @@ package Net;
 
 import Utils.BinaryWriter;
 import com.thecherno.raincloud.serialization.RCDatabase;
+import com.thecherno.raincloud.serialization.SerializationUtils;
 
 import java.io.IOException;
 import java.net.*;
@@ -10,6 +11,7 @@ public class Client {
 
     private final static byte[] PACKET_HEADER = new byte[] { 0x40, 0x40 };
     private final static byte PACKET_TYPE_CONNECT = 0x01;
+    private final static byte PACKET_TYPE_LEVEL_SWAP = 0x04;
 
     public enum Error{
         NONE, INVALID_HOST, SOCKET_EXCEPTION,
@@ -78,6 +80,17 @@ public class Client {
         BinaryWriter writer = new BinaryWriter();
         writer.write(PACKET_HEADER);
         writer.write(PACKET_TYPE_CONNECT);
+        send(writer.getBuffer());
+    }
+
+    // TODO test this (debug it)
+    public void sendLevelSwapPacket(short levelRef){
+        BinaryWriter writer = new BinaryWriter();
+        writer.write(PACKET_HEADER);
+        writer.write(PACKET_TYPE_LEVEL_SWAP);
+        byte[] dest = new byte[2]; // shorts store whole numbers from -32,768 to 32,767
+        SerializationUtils.writeBytes(dest, 0, levelRef);
+        writer.write(dest);
         send(writer.getBuffer());
     }
 

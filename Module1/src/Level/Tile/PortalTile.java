@@ -6,9 +6,9 @@ import Level.Level;
 
 public class PortalTile extends Tile{
 
-    private Level destination;
+    private short destination;
 
-    public PortalTile(Sprite sprite, Level destination) {
+    public PortalTile(Sprite sprite, short destination) {
         super(sprite);
         this.destination = destination;
     }
@@ -21,7 +21,7 @@ public class PortalTile extends Tile{
         return true;
     }
 
-    public Level enter(){
+    public short getLevel(){
         // TODO move player to different level
         // TODO remove player from lists
         return this.destination;

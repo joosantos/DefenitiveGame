@@ -39,6 +39,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
     private Keyboard key;
     private Level level;
     private Player player;
+
     private boolean running = false;
 
     private static UIManager uiManager;
@@ -76,7 +77,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         level = Level.spawn; //holds the path
         addLayer(level); // add it to layer list to get it auto updated with rest
         TileCoordinate playerSpawn = new TileCoordinate(19,57);
-        player = new Player("DudeWat",playerSpawn.getX(),playerSpawn.getY(),key); //params are spawn coordinates, 16 pix = 1 tile (hence the multiplication)
+        player = new Player("DudeWat",playerSpawn.getX(),playerSpawn.getY(),key ,client); //params are spawn coordinates, 16 pix = 1 tile (hence the multiplication)
 
         //player.init(level);
         level.add(player);
@@ -226,7 +227,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
     public static void main(String[] args) {
         Game game = new Game();
         // Move the undecorated line further down for gratuitous errors; it removes header on window
-        game.frame.setUndecorated(true);
+        game.frame.setUndecorated(false); //TODO true for actual fullscreen
         game.frame.setResizable(false);
         game.frame.setTitle(Game.title);
         game.frame.add(game);
@@ -247,4 +248,5 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         //game.requestFocus(); //to skip having to click window
 
     }
+
 }

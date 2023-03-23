@@ -15,8 +15,13 @@ import Graphics.Spritesheet;
 import Graphics.UI.*;
 import Input.Keyboard;
 import Input.Mouse;
+import Level.Tile.PortalTile;
+import Level.Tile.Tile;
+import Net.Client;
 import Utils.ImageUtils;
 import Utils.Vector2i;
+import com.thecherno.raincloud.serialization.RCDatabase;
+import com.thecherno.raincloud.serialization.SerializationUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -44,7 +49,7 @@ public class Player extends Mob implements EventListener {
     private UIManager ui;
     private UIProgressBar uiHealthBar,uiManaBar,uiExperienceBar;
     private UIButton button;
-    private UIButton buttonPortal = new UIButton(new Vector2i(10, 400), new Vector2i(40, 30)){               @Override
+    private UIButtonPortal buttonPortal = new UIButtonPortal(new Vector2i(10, 400), new Vector2i(40, 30)){               @Override
         public void pressed (UIButton button){
             button.setColor(0xededed);
             button.action(button);
@@ -53,7 +58,10 @@ public class Player extends Mob implements EventListener {
 
         @Override
         public void action(UIButton button) {
-            System.out.println("Action!");
+            UIButtonPortal btn = (UIButtonPortal) button;
+            client.sendLevelSwapPacket(btn.levelReference);
+            System.out.println(level);
+        //System.out.println("Action!");
         }
     };
 
@@ -63,6 +71,8 @@ public class Player extends Mob implements EventListener {
 
     private boolean shooting = false;
 
+    private Client client;
+
     @Deprecated
     public Player (String name, Keyboard input){
         this.name = name;
@@ -71,11 +81,12 @@ public class Player extends Mob implements EventListener {
         animSprite = down;
     }
 
-    public Player (String name, int x, int y, Keyboard input){
+    public Player (String name, int x, int y, Keyboard input, Client client){
         this.name = name;
         this.x = x;
         this.y = y;
         this.input = input;
+        this.client = client;
         sprite = Sprite.player_forward; //just in case, to avoid crashes
         fireRate = WizardProjectile.FIRE_RATE;
         // TODO panel was here
@@ -347,9 +358,12 @@ public class Player extends Mob implements EventListener {
             int iy = (int) Math.ceil(yt);
             if ( c % 2 == 0) ix = (int) Math.floor(xt); // Right side needs diff rounding
             if ( c / 2 == 0) iy = (int) Math.floor(yt); // Same for upside
-            if(level.getTile(ix, iy).isSolid()) return true;
-            if(level.getTile(ix, iy).isPortal()){
+            Tile tile = level.getTile(ix, iy); //TODO might be funky code
+            if(tile.isSolid()) return true;
+            if(tile.isPortal()){
+                PortalTile portalTile = (PortalTile) tile;
                 buttonPortal.setText("Enter");
+                buttonPortal.levelReference = portalTile.getLevel();
                 panel.addComponent(buttonPortal);
             }else{
                 panel.removeComponent(buttonPortal);

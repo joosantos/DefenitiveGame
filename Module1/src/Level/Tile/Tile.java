@@ -21,7 +21,7 @@ public class Tile {
     public static Tile spawn_floor_boards = new SpawnFloorTile(Sprite.spawn_floor_boards);
     public static Tile spawn_floor = new SpawnFloorTile(Sprite.spawn_floor);
 
-    public static Tile spawn_portal = new PortalTile(Sprite.spawn_portal, new RandomLevel(64,64));
+    public static Tile spawn_portal = new PortalTile(Sprite.spawn_portal, (short) 12345);
 
 
     public static final int col_spawn_grass = 0xFF23FF44;
