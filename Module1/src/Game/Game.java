@@ -15,12 +15,15 @@ import Net.Player.NetPlayer;
 import com.thecherno.raincloud.serialization.RCDatabase;
 import com.thecherno.raincloud.serialization.RCField;
 import com.thecherno.raincloud.serialization.RCObject;
+import com.thecherno.raincloud.serialization.SerializationUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +37,17 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
     public static int scale = 1;
     private static String title = "ROTMG";
 
-    private Thread thread;
+    private Thread thread, listenThread;
     private JFrame frame;
     private Keyboard key;
     private Level level;
     private Player player;
 
     private boolean running = false;
+    private boolean listening = false;
+
+    private final int MAX_PACKET_SIZE = 1024; // 1 kb
+    private byte[] receivedDataBuffer = new byte[MAX_PACKET_SIZE * 10];
 
     private static UIManager uiManager;
 
@@ -69,6 +76,20 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         if(!client.connect()){
             //TODO handle failed connection
         }
+
+        //Listening to server
+        // We use multiple threads bc socket functions will block the thread until resolution
+        listening = true;
+        listenThread = new Thread(() -> listen(client));
+        //Does same as this
+        /*listenThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                listen();
+            }
+        });*/
+        listenThread.start();
+        System.out.println("Client is listening...");
 
         RCDatabase db = RCDatabase.DeserializeFromFile("res/data/screen.bit");
         client.send(db);
@@ -116,10 +137,38 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
     public void addLayer(Layer layer){layerStack.add(layer);}
 
+    public void removeLayer(Layer layer){layerStack.remove(layer);}
+
     public synchronized void start() {
+
+
         running = true;
         thread = new Thread(this, "Display");
         thread.start();
+    }
+
+    private void listen(Client client){
+        while (listening){
+            DatagramPacket packet = new DatagramPacket(receivedDataBuffer, MAX_PACKET_SIZE);
+            try {
+                client.getSocket().receive(packet);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            process(packet);
+        }
+    }
+
+    private void process(DatagramPacket packet) {
+        byte[] data = packet.getData();
+        System.out.println("Received Packet");
+        short levelRef = SerializationUtils.readShort(data, 3);
+        System.out.println(levelRef);
+        level = Level.level1;
+        level.add(player);
+        addLayer(level);
+
     }
 
     public synchronized void stop() {

@@ -114,4 +114,8 @@ public class Client {
     public Error getErrorCode() {
         return errorCode;
     }
+
+    public DatagramSocket getSocket() {
+        return socket;
+    }
 }

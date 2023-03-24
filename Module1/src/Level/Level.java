@@ -18,7 +18,8 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
     protected int[] tilesInt;
     protected int[] tiles;
     public static Level spawn = new SpawnLevel("res/levels/spawnLevel.png");
-    public static Level random = new RandomLevel(64,64);
+    @Deprecated public static Level random = new RandomLevel(64,64);
+    public static Level level1 = new SpawnLevel("res/levels/level1.png");
 
     private int xScroll, yScroll;
 
