@@ -35,10 +35,10 @@ public class SpawnLevel extends Level{ //ep 52
             e.printStackTrace();
             System.out.println("Exception! Could not load level file!");
         }
-        //add(new Shooter(10,55));
-        //add(new Shooter(20,55));
-        //add(new Shooter(20,60));
-        //add(new Portal(20,70, Sprite.flower, random));
+        add(new Shooter(10,55));
+        add(new Shooter(20,55));
+        add(new Shooter(20,60));
+        //add(new Portal(20,70, Sprite.flower, random)); TODO remove this
 
     }
 
