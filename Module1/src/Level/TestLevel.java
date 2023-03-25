@@ -1,18 +1,15 @@
 package Level;
 
-import Entity.Mob.Shooter;
-
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class SpawnLevel extends Level{ //ep 52
+public class TestLevel extends Level{ //ep 52
 
     // private int[] levelPixels;
 
-    public SpawnLevel (String path){
+    public TestLevel (String path){
         super(path);
     }
 
@@ -30,15 +27,11 @@ public class SpawnLevel extends Level{ //ep 52
             e.printStackTrace();
             System.out.println("Exception! Could not load level file!");
         }
-        add(new Shooter(10,55));
-        add(new Shooter(20,55));
-        add(new Shooter(20,60));
-        //add(new Portal(20,70, Sprite.flower, random)); TODO remove this
 
     }
 
-        protected void generateLevel(){ //could have return Tile[], but this runs faster
-
-        }
+    protected void generateLevel(){ //could have return Tile[], but this runs faster
 
     }
+
+}

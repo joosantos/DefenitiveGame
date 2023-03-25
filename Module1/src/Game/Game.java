@@ -8,6 +8,8 @@ import Graphics.Screen;
 import Input.Keyboard;
 import Input.Mouse;
 import Level.Level;
+import Level.TestLevel;
+import Level.SpawnLevel;
 import Level.TileCoordinate;
 import Graphics.UI.UIManager;
 import Net.Client;
@@ -32,7 +34,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    public static int width = (int) (screenSize.getWidth() - 360); //was 300;
+    public static int width = (int) (screenSize.getWidth() - 360); //was 300 - 80;
     public static int height = (int) screenSize.getHeight();//300 / 16 * 9;
     public static int scale = 1;
     private static String title = "ROTMG";
@@ -167,7 +169,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         short levelRef = SerializationUtils.readShort(data, 3);
         System.out.println(levelRef);
         removeLayer(level);
-        level = Level.level1;
+        level = new TestLevel("res/levels/level1.png");
         level.add(player);
         addLayer(level);
 
