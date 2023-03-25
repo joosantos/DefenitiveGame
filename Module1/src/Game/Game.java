@@ -59,6 +59,8 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
     private List<Layer> layerStack = new ArrayList<Layer>();// Layer stack
 
+    private Client client;
+
     public Game() {
         // TODO If want to change UI, +80*3 here, which adds room for it, and the thing In Player
         // Nothing is being rendered under UI, gud for performance
@@ -72,7 +74,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
         //TODO Server connection here!
 
-        Client client = new Client("localhost", 8192);
+        client = new Client("localhost", 8192);
         if(!client.connect()){
             //TODO handle failed connection
         }
@@ -80,7 +82,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         //Listening to server
         // We use multiple threads bc socket functions will block the thread until resolution
         listening = true;
-        listenThread = new Thread(() -> listen(client));
+        listenThread = new Thread(() -> listen());
         //Does same as this
         /*listenThread = new Thread(new Runnable() {
             @Override
@@ -141,13 +143,12 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
 
     public synchronized void start() {
 
-
         running = true;
         thread = new Thread(this, "Display");
         thread.start();
     }
 
-    private void listen(Client client){
+    private void listen(){
         while (listening){
             DatagramPacket packet = new DatagramPacket(receivedDataBuffer, MAX_PACKET_SIZE);
             try {
@@ -165,6 +166,7 @@ public class Game extends Canvas implements Runnable, EventListener { //runnable
         System.out.println("Received Packet");
         short levelRef = SerializationUtils.readShort(data, 3);
         System.out.println(levelRef);
+        removeLayer(level);
         level = Level.level1;
         level.add(player);
         addLayer(level);

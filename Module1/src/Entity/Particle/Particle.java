@@ -51,7 +51,7 @@ public class Particle extends Entity {
     }
 
     private void move(double x, double y) {
-        if (collision(x, y)){ // Todo this causing the bug
+        if (collision(x, y)){
             this.xa *= 0.5;
             this.ya *= 0.5;
             this.za *= 0.5;

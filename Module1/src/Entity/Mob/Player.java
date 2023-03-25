@@ -20,8 +20,6 @@ import Level.Tile.Tile;
 import Net.Client;
 import Utils.ImageUtils;
 import Utils.Vector2i;
-import com.thecherno.raincloud.serialization.RCDatabase;
-import com.thecherno.raincloud.serialization.SerializationUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
