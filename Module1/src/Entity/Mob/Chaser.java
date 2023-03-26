@@ -9,7 +9,7 @@ import Level.Level;
 
 import java.util.List;
 
-public class Chaser extends Mob{
+public class Chaser extends Enemy{
 
     private AnimatedSprite up = new AnimatedSprite(Spritesheet.dummy_up, 32, 32, 1);
     private AnimatedSprite right = new AnimatedSprite(Spritesheet.dummy_right, 32, 32, 1);

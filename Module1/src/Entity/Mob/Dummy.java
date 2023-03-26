@@ -5,7 +5,7 @@ import Graphics.Screen;
 import Graphics.Sprite;
 import Graphics.Spritesheet;
 
-public class Dummy extends Mob{
+public class Dummy extends Enemy{
 
     private AnimatedSprite up = new AnimatedSprite(Spritesheet.dummy_up, 32, 32, 1);
     private AnimatedSprite right = new AnimatedSprite(Spritesheet.dummy_right, 32, 32, 1);

@@ -26,7 +26,7 @@ public class WizardProjectile extends Projectile{
     //private int time = 0; // part of recurring rotation, ep 113
 
     public void tick() {
-        if (level.tileCollision((int) (x + newX),(int) (y + newY),7, 4, 4)){ //offset is pixels to margin of cell
+        if (level.tileCollision((int) (x + newX),(int) (y + newY),7, 4, 4) || level.enemyCollision((int) (x + newX),(int) (y + newY),7, 4, 4)){ //offset is pixels to margin of cell
             level.add(new ParticleSpawner((int)x, (int)y, 50, 20, level));
             remove(); //ball projectile thing is 7 by 7
         }

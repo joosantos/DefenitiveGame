@@ -19,6 +19,8 @@ public abstract class Mob extends Entity {
     public abstract void tick();
     public abstract void render(Screen screen);
 
+    public abstract void takeDamage();
+
     protected enum Direction{
         UP,DOWN,LEFT,RIGHT;
     }

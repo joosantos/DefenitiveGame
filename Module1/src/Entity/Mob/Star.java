@@ -9,7 +9,7 @@ import Utils.Vector2i;
 
 import java.util.List;
 
-public class Star extends Mob{
+public class Star extends Enemy{
     private AnimatedSprite up = new AnimatedSprite(Spritesheet.dummy_up, 32, 32, 1);
     private AnimatedSprite right = new AnimatedSprite(Spritesheet.dummy_right, 32, 32, 1);
     private AnimatedSprite down = new AnimatedSprite(Spritesheet.dummy_down, 32, 32, 1);

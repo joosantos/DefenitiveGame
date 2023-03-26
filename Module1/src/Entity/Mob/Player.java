@@ -309,6 +309,11 @@ public class Player extends Mob implements EventListener {
 
     }
 
+    @Override
+    public void takeDamage() {
+
+    }
+
 
     protected void move(double xa, double ya){
         if (ya > 0) dir = Direction.UP;

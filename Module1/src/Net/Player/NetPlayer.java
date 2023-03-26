@@ -17,4 +17,9 @@ public class NetPlayer extends Mob {
     public void render(Screen screen) {
         screen.fillRect(x, y, 32, 32, 0x2030cc, true);
     }
+
+    @Override
+    public void takeDamage() {
+
+    }
 }

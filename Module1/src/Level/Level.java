@@ -1,6 +1,7 @@
 package Level;
 
 import Entity.Entity;
+import Entity.Mob.Enemy;
 import Entity.Mob.Mob;
 import Entity.Mob.Player;
 import Entity.Particle.Particle;
@@ -28,6 +29,7 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
     private List<Particle> particles = new ArrayList<Particle>(); //Holds all particles of the level (dynamically)
 
     private List<Mob> players = new ArrayList<Mob>();
+    private List<Enemy> enemies = new ArrayList<Enemy>();
 
     private Comparator<Node> nodeSorter = new Comparator<Node>() {
         public int compare(Node n0, Node n1) {
@@ -90,6 +92,11 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
             players.get(i).tick();
             if(players.get(i).isRemoved()) players.remove(i);
         }
+        for (int i = 0; i < players.size(); i++) {
+            enemies.get(i).tick();
+            if(enemies.get(i).isRemoved()) enemies.remove(i);
+        }
+
         // TODO Not rly, but he made a remove function called here that runs through everything again and checks isRemoved, maybe current method messes up indexes
     }
 
@@ -128,6 +135,9 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
             for (int i = 0; i < players.size(); i++) {
                 players.get(i).render(screen);
             }
+            for (int i = 0; i < enemies.size(); i++) {
+                enemies.get(i).render(screen);
+            }
         }
     }
 
@@ -141,12 +151,26 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
         return false;
     }
 
+    public boolean enemyCollision(int x, int y, int size, int xOffset, int yOffset) {
+        for (int c = 0; c < 4; c++){ // Checks 4 corners
+            int xt = (x - c % 2 * size + xOffset) >> 4;// c % 2 will alternate between 0 and 1 depending on corner
+            int yt = (y - c / 2 * size + yOffset) >> 4;// >> 4 = / 16, but faster
+            Enemy enemy = getEnemyAtPosition(xt, yt);
+            if(enemy != null){
+                enemy.takeDamage();
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void add(Entity e){  // Load Entities into the level
         e.init(this);
         if (e instanceof Particle) particles.add((Particle) e); //if adding particles, need to cast as a Particle to be safe
         else if(e instanceof Projectile) projectiles.add((Projectile)e); //Need to cast to Projectile to be safe (silence errors)
         else if (e instanceof Player) players.add((Player) e);
+        else if (e instanceof Enemy) enemies.add((Enemy) e);
         else entities.add(e);
     }
 
@@ -161,6 +185,17 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
 
     public List<Mob> getPlayers(){ // TODO Put players in own list instead of using Mob, make an intermediate player class that brings online and client together
         return players;
+    }
+
+    public List<Enemy> getEnemies(){
+        return enemies;
+    }
+
+    public Enemy getEnemyAtPosition(int x, int y){
+        for (int i = 0; i < enemies.size(); i++) {
+            if (((int)enemies.get(i).getX() >> 4) == x && ((int)enemies.get(i).getY() >> 4) == y) return enemies.get(i);
+        }
+        return null;
     }
 
     public Mob getPlayerAt(int index){
@@ -229,7 +264,7 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
     private double getDistance(Vector2i tile, Vector2i goal){ // For Nodes
         double dx = tile.getX() - goal.getX();
         double dy = tile.getY() - goal.getY();
-        return Math.sqrt(dx*dx + dy*dy); // Phitgoras
+        return Math.sqrt(dx*dx + dy*dy); // Pythagoras
     }
 
     // Func to find nearby target entities
@@ -283,4 +318,5 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
         return Tile.voidTile;
 
     }
+
 }
