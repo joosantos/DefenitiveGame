@@ -20,7 +20,7 @@ public class Spritesheet {
     public static Spritesheet spawn_level_tiles = new Spritesheet("res/textures/sheets/spawnLevelSheet.png", 48);
     public static Spritesheet projectile_wizard = new Spritesheet("res/textures/sheets/projectiles/wizard.png", 48);
 
-    // New player spite loading
+    // New player sprite loading
     public static Spritesheet player = new Spritesheet("res/textures/sheets/playerSheet.png", 128, 96);
     public static Spritesheet player_up = new Spritesheet(player, 0, 0, 1, 3, 32);
     public static Spritesheet player_right = new Spritesheet(player, 1, 0, 1, 3, 32);
@@ -34,10 +34,10 @@ public class Spritesheet {
     public static Spritesheet dummy_left = new Spritesheet(dummy, 1, 0, 1, 1, 32);
 
     public static Spritesheet test = new Spritesheet("res/textures/sheets/archer.png", 256, 256);
-    public static Spritesheet test_up = new Spritesheet(test, 1, 1, 1, 1, 96);
-    public static Spritesheet test_right = new Spritesheet(test, 1, 1, 1, 1, 96);
-    public static Spritesheet test_down = new Spritesheet(test, 1, 1, 1, 1, 96);
-    public static Spritesheet test_left = new Spritesheet(test, 1, 1, 1, 1, 96);
+    public static Spritesheet test_up = new Spritesheet(test, 0, 1, 1, 1, 52, 78);
+    public static Spritesheet test_right = new Spritesheet(test, 0, 1, 1, 1, 52, 78);
+    public static Spritesheet test_down = new Spritesheet(test, 0, 1, 1, 1, 52, 78);
+    public static Spritesheet test_left = new Spritesheet(test, 0, 1, 1, 1, 52, 78);
 
     private Sprite[] sprites;
 
@@ -71,6 +71,43 @@ public class Spritesheet {
                     }
                 }
                 Sprite sprite = new Sprite(spritePixels, spriteSize, spriteSize);
+                sprites[frame++] = sprite; // Increments after
+            }
+        }
+
+        //pixels = new int[SIZE * SIZE];
+        //load();
+    }
+
+    public Spritesheet(Spritesheet sheet, int x, int y, int width, int height, int spriteSizeX, int spriteSizeY){ // pixel precision
+        int xx = x * spriteSizeX; // Sprite precision
+        int yy = y * spriteSizeY;
+        int w = width * spriteSizeX; // w and h are pixel precision
+        int h = height * spriteSizeY;
+        if (width == height) SIZE = width;
+        else SIZE = -1;
+        SPRITE_WIDTH = w;
+        SPRITE_HEIGHT = h;
+        pixels = new int[w * h];
+        for (int y0 = 0; y0 < h; y0++) { // Sprite precision for width and height
+            int yp = yy + y0; // Y position
+            for (int x0 = 0; x0 < w; x0++) {
+                int xp = xx + x0; // X position
+                pixels[x0 + y0 * w] = sheet.pixels[xp + yp * sheet.SPRITE_WIDTH];
+            }
+        }
+        int frame = 0;
+        sprites = new Sprite[width * height];
+        for (int ya = 0; ya < height; ya++) {
+            for (int xa = 0; xa < width; xa++) {
+                int[] spritePixels = new int[spriteSizeX * spriteSizeY];
+                for (int y0 = 0; y0 < spriteSizeY; y0++) {
+                    for (int x0 = 0; x0 < spriteSizeX; x0++) {
+                        // x0 is pixel precision, but xa is sprite precision, so multiply by spriteSize
+                        spritePixels[x0 + y0 * spriteSizeX] = pixels[(x0 + xa * spriteSizeX + (y0 + ya * spriteSizeY) * SPRITE_WIDTH)];
+                    }
+                }
+                Sprite sprite = new Sprite(spritePixels, spriteSizeX, spriteSizeY);
                 sprites[frame++] = sprite; // Increments after
             }
         }

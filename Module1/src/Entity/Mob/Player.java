@@ -296,7 +296,7 @@ public class Player extends Mob implements EventListener {
 
         sprite = animSprite.getSprite(); // new animation
 
-        screen.renderMob((x - 16),(y - 16), sprite, flip, sprite.getHeight());//16 is half the size of the player, centering them
+        screen.renderMob((x - 16),(y - 16), sprite, flip, sprite.getWidth(), sprite.getHeight());//16 is half the size of the player, centering them
 
         //Rendering 4 diff things isn't slower
 

@@ -157,7 +157,7 @@ public class Screen { // This is the class that renders things on the actual scr
     }
 
     //TODO testing this
-    public void renderMob(int xp, int yp, Sprite sprite, int flip, int size){ //swap 32s for 16s if changing 16 pix to 8
+    public void renderMob(int xp, int yp, Sprite sprite, int flip, int size){
         xp -= xOffset;
         yp -= yOffset;
         for (int y = 0; y < size; y++){
@@ -171,6 +171,27 @@ public class Screen { // This is the class that renders things on the actual scr
                 if (xa < -16 || xa >= width || ya < 0 || ya >= height) break; // -tile.sprite.SIZE = -16, we're rendering an extra tile
                 if (xa < 0) xa = 0;
                 int col = sprite.pixels[xs + ys * size]; //col stands for colour
+                if (col != ALPHA_COL) pixels[xa + ya * width] = col; //need to add an "FF after the 0x for colours"
+            }
+        }
+    }
+
+    //TODO testing this
+    public void renderMob(int xp, int yp, Sprite sprite, int flip, int sizeX, int sizeY){ //swap 32s for 16s if changing 16 pix to 8
+        xp -= xOffset;
+        yp -= yOffset;
+        //System.out.println(sizeX+" : "+sizeY);
+        for (int y = 0; y < sizeY; y++){
+            int ya = y + yp;
+            int ys = y;
+            if (flip == 2 || flip == 3) ys = sizeY -1 - y; // 2 means flip y, 3 means flip both
+            for (int x = 0; x < sizeX; x++){
+                int xa = x + xp;
+                int xs = x;
+                if (flip == 1 || flip == 3) xs = sizeX -1 - x; // 1 means flip x, 3 means flip both
+                if (xa < -16 || xa >= width || ya < 0 || ya >= height) break; // -tile.sprite.SIZE = -16, we're rendering an extra tile
+                if (xa < 0) xa = 0;
+                int col = sprite.pixels[xs + ys * sizeX]; //col stands for colour
                 if (col != ALPHA_COL) pixels[xa + ya * width] = col; //need to add an "FF after the 0x for colours"
             }
         }
