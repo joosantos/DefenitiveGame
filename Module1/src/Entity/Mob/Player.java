@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class Player extends Mob implements EventListener {
+public class Player extends PlayableChar implements EventListener {
 
     private String name;
     private Keyboard input;

@@ -1,9 +1,10 @@
 package Net.Player;
 
 import Entity.Mob.Mob;
+import Entity.Mob.PlayableChar;
 import Graphics.Screen;
 
-public class NetPlayer extends Mob {
+public class NetPlayer extends PlayableChar {
 
     public NetPlayer(){
         x = 22*16;
