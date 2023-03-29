@@ -63,6 +63,7 @@ public class Sprite {
 
     //Particles
     public static Sprite particle_normal = new Sprite(3, 0xaaaaaa);
+    public static Sprite particle_red = new Sprite(3, 0xff0000);
 
 
     protected Sprite(Spritesheet sheet, int width, int height){ // For AnimatedSprite

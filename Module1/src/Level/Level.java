@@ -3,6 +3,7 @@ package Level;
 import Entity.Entity;
 import Entity.Mob.Enemy;
 import Entity.Mob.Mob;
+import Entity.Mob.PlayableChar;
 import Entity.Mob.Player;
 import Entity.Particle.Particle;
 import Entity.Projectile.Projectile;
@@ -28,7 +29,7 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
     private List<Projectile> projectiles = new ArrayList<Projectile>(); //Holds all entities of the level (dynamically)
     private List<Particle> particles = new ArrayList<Particle>(); //Holds all particles of the level (dynamically)
 
-    private List<Mob> players = new ArrayList<Mob>();
+    private List<PlayableChar> players = new ArrayList<PlayableChar>();
     private List<Enemy> enemies = new ArrayList<Enemy>();
 
     private Comparator<Node> nodeSorter = new Comparator<Node>() {
@@ -164,6 +165,19 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
         return false;
     }
 
+    public boolean playerCollision(int x, int y, int size, int xOffset, int yOffset) {
+        for (int c = 0; c < 4; c++){ // Checks 4 corners
+            int xt = (x - c % 2 * size + xOffset) >> 4;// c % 2 will alternate between 0 and 1 depending on corner
+            int yt = (y - c / 2 * size + yOffset) >> 4;// >> 4 = / 16, but faster
+            PlayableChar player = getPlayerAtPosition(xt, yt);
+            if(player != null){
+                player.takeDamage();
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void add(Entity e){  // Load Entities into the level
         e.init(this);
@@ -178,12 +192,12 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
         return projectiles;
     }
 
-    public void addPlayer(Mob player){
+    public void addPlayer(PlayableChar player){
         player.init(this);
         players.add(player);
     }
 
-    public List<Mob> getPlayers(){ // TODO Put players in own list instead of using Mob, make an intermediate player class that brings online and client together
+    public List<PlayableChar> getPlayers(){ // TODO Put players in own list instead of using Mob, make an intermediate player class that brings online and client together
         return players;
     }
 
@@ -198,7 +212,14 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
         return null;
     }
 
-    public Mob getPlayerAt(int index){
+    public PlayableChar getPlayerAtPosition(int x, int y){
+        for (int i = 0; i < players.size(); i++) {
+            if (((int)players.get(i).getX() >> 4) == x && ((int)players.get(i).getY() >> 4) == y) return players.get(i);
+        }
+        return null;
+    }
+
+    public PlayableChar getPlayerAtIndex(int index){
         return players.get(index);
     }
 
@@ -287,12 +308,12 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
     }
 
     // Func to find nearby target Players
-    public List<Mob> getPlayers (Entity e, int radius){ // TODO Optimize this and b4 func (int ex is unnecessary)
-        List<Mob> result = new ArrayList<Mob>(); // TODO was Player instead of Mob
+    public List<PlayableChar> getPlayers (Entity e, int radius){ // TODO Optimize this and b4 func (int ex is unnecessary)
+        List<PlayableChar> result = new ArrayList<PlayableChar>(); // TODO was Player instead of Mob
         double ex = e.getX();
         double ey = e.getY();
         for (int i = 0; i < players.size(); i++) {
-            Mob player = players.get(i); // TODO was Player, not Mob
+            PlayableChar player = players.get(i); // TODO was Player, not Mob
             double x = player.getX(); // Position of target entity
             double y = player.getY();
             double dx = Math.abs(x - ex); // Clac distance, mke it positive

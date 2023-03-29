@@ -1,16 +1,14 @@
 package Entity.Projectile;
-
-import Entity.Spawner.Spawner;
 import Graphics.Screen;
 import Graphics.Sprite;
 
 import Entity.Spawner.ParticleSpawner;
 
-public class WizardProjectile extends Projectile{
+public class PlayerProjectile extends Projectile{
 
     public static final int FIRE_RATE = 15; // Higher rate is slower
 
-    public WizardProjectile(double x, double y, double dir) {
+    public PlayerProjectile(double x, double y, double dir) {
         super(x, y, dir);
         //range = random.nextInt(50) + 50; // Range between 50 and 100
         range = 100;
@@ -27,7 +25,7 @@ public class WizardProjectile extends Projectile{
 
     public void tick() {
         if (level.tileCollision((int) (x + newX),(int) (y + newY),7, 4, 4) || level.enemyCollision((int) (x + newX),(int) (y + newY),7, 4, 4)){ //offset is pixels to margin of cell
-            level.add(new ParticleSpawner((int)x, (int)y, 50, 20, level));
+            level.add(new ParticleSpawner((int)x, (int)y, 50, 10, level, Sprite.particle_red));
             remove(); //ball projectile thing is 7 by 7
         }
         //TODO If want the projective to rotate as it travels, do this

@@ -34,8 +34,8 @@ public class Star extends Enemy{
         xa = 0;// Reset every cycle
         ya = 0;
         //TODO shouldn't need to cast to int, change return type?
-        int px = (int)level.getPlayerAt(0).getX(); // get player location, pixel precision, for smooth walking
-        int py = (int)level.getPlayerAt(0).getY(); // player position is goal
+        int px = (int)level.getPlayerAtIndex(0).getX(); // get player location, pixel precision, for smooth walking
+        int py = (int)level.getPlayerAtIndex(0).getY(); // player position is goal
         Vector2i start = new Vector2i((int)getX() >> 4, (int)getY() >> 4); // convert to tile precision
         Vector2i destination = new Vector2i(px >> 4, py >> 4);
         // Have to keep recalculating the path because players move

@@ -1,11 +1,10 @@
 package Entity.Mob;
 
 import Entity.Entity;
+import Entity.Projectile.EnemyProjectile;
 import Entity.Projectile.Projectile;
-import Entity.Projectile.WizardProjectile;
+import Entity.Projectile.PlayerProjectile;
 import Graphics.Screen;
-import Graphics.Sprite;
-import Level.TileCoordinate;
 
 
 public abstract class Mob extends Entity {
@@ -69,11 +68,7 @@ public abstract class Mob extends Entity {
     }
 
 
-    protected void shoot(int x, int y, double dir){
-        //dir *= 180 /Math.PI; //convert from Rads to Degrees
-        Projectile p = new WizardProjectile(x,y,dir);
-        level.add(p);
-    }
+    abstract protected void shoot(int x, int y, double dir);
 
     private boolean collision(double xa, double ya){
         //check each corner of tile

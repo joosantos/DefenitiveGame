@@ -1,10 +1,14 @@
 package Entity.Mob;
 
 import Entity.Entity;
+import Entity.Projectile.EnemyProjectile;
+import Entity.Projectile.PlayerProjectile;
+import Game.Game;
 import Graphics.AnimatedSprite;
 import Graphics.Screen;
 import Graphics.Sprite;
 import Graphics.Spritesheet;
+import Input.Mouse;
 import Utils.Debug;
 import Utils.Vector2i;
 
@@ -29,10 +33,14 @@ public class Shooter extends Enemy{
         this.x = x << 4;
         this.y = y << 4;
         sprite = Sprite.mob_forward;
+        fireRate = EnemyProjectile.FIRE_RATE;
+        // TODO move the shooting set to tick function on this class, after checking in players in range
+        shooting = true;
     }
 
     public void tick() {
         time ++; // will increment 60 times per second
+        if (fireRate > 0) fireRate--;
         if (time % (random.nextInt(50) + 30) == 0){ // at most change direction 2 times per second
             xa = random.nextInt(3) -1; // random.nextInt(3) give 0, 1, or 2
             ya = random.nextInt(3) -1; // -1, 0, or 1
@@ -69,17 +77,24 @@ public class Shooter extends Enemy{
         sprite = animSprite.getSprite();
 
         //Shoot
-        shootRandom();
+        updateShooting();
+    }
+
+    private void updateShooting(){
+        if (!shooting || fireRate > 0) return;
+        shootRandom(); //x nd y are player position(where projectile originates)
+        fireRate = PlayerProjectile.FIRE_RATE; // Reset fire rate after shooting
+
     }
 
     private void shootRandom(){
-        List<Entity> entities = level.getEntities(this, 500);
-        entities.add(level.getClientPlayer()); // add the client player, TODO why is it needed, should already be in entities no?
+        List<PlayableChar> players = level.getPlayers(this, 50);
+        players.add(level.getClientPlayer()); // add the client player, TODO why is it needed, should already be in entities no?
         // TODO in future remove the client player addition and make a check to see if entities.size > 0, else dont run rest of code
         if(time % (30 + random.nextInt(91)) == 0){ // up to 2 secs
             // Decide what to shoot at
-            int index = random.nextInt(entities.size());
-            rand = entities.get(index);
+            int index = random.nextInt(players.size());
+            rand = players.get(index);
         }
         if (rand != null){
             double dx = rand.getX() - x; // Clac distances in a triangle
@@ -88,6 +103,7 @@ public class Shooter extends Enemy{
             double dirShoot = Math.atan2(dy, dx); // Get angle
             shoot(x, y, dirShoot);
         }
+
 
         /* Alternative
         *         if(time % (30 + random.nextInt(91)) == 0){ // up to 2 secs

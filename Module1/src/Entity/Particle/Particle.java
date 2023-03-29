@@ -31,6 +31,21 @@ public class Particle extends Entity {
         this.zz = random.nextFloat() + 2.0; //Makes them move at random speed
     }
 
+    public Particle (int x, int y, int life, Sprite sprite){
+        this.x = x;
+        this.y = y;
+        this.xx = x;
+        this.yy = y;
+        //There are no pointers in java, placing it in array copies it, so set values b4
+        this.life = life + (random.nextInt(20) -10); // Give particles varying lifetime
+        this.sprite = sprite;
+
+        //random between -1 and 1, but closer to 0 most times
+        this.xa = random.nextGaussian();
+        this.ya = random.nextGaussian();
+        this.zz = random.nextFloat() + 2.0; //Makes them move at random speed
+    }
+
     //time++;
     //if (time >= Integer.MAX_VALUE-1) time = 0;
     //if (time > life) remove();

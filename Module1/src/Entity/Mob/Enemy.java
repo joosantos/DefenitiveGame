@@ -1,7 +1,15 @@
 package Entity.Mob;
+import Entity.Projectile.EnemyProjectile;
+import Entity.Projectile.PlayerProjectile;
+import Entity.Projectile.Projectile;
+import Game.Game;
 import Graphics.Screen;
+import Input.Mouse;
 
 public class Enemy extends Mob{
+
+    protected int fireRate = 0;
+    protected boolean shooting = false;
 
     public Enemy() {
     }
@@ -20,4 +28,12 @@ public class Enemy extends Mob{
     public void takeDamage() {
 
     }
+
+    @Override
+    protected void shoot(int x, int y, double dir) {
+        //dir *= 180 /Math.PI; //convert from Rads to Degrees
+        Projectile p = new EnemyProjectile(x,y,dir);
+        level.add(p);
+    }
+
 }

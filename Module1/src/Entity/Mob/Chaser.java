@@ -31,7 +31,7 @@ public class Chaser extends Enemy{
     public void move(){
         xa = 0;// Reset every cycle
         ya = 0;
-        List<Mob> players = level.getPlayers(this, 50); // TODO was Player, not Mob
+        List<PlayableChar> players = level.getPlayers(this, 50); // TODO was Player, not Mob
         if (players.size() > 0) { // TODO fix stutter stepping
             Mob player = players.get(0); // TODO was Player, not Mob
             if (x < (int)player.getX()) xa+= speed;

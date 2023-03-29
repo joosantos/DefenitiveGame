@@ -1,7 +1,8 @@
 package Entity.Mob;
 
+import Entity.Projectile.EnemyProjectile;
 import Entity.Projectile.Projectile;
-import Entity.Projectile.WizardProjectile;
+import Entity.Projectile.PlayerProjectile;
 import Events.Event;
 import Events.EventDisptcher;
 import Events.EventListener;
@@ -86,7 +87,7 @@ public class Player extends PlayableChar implements EventListener {
         this.input = input;
         this.client = client;
         sprite = Sprite.player_forward; //just in case, to avoid crashes
-        fireRate = WizardProjectile.FIRE_RATE;
+        fireRate = PlayerProjectile.FIRE_RATE;
         // TODO panel was here
         ui = Game.getUIManager();
         // Had a - 80 with width b4 * 3 before made game window and UI separate
@@ -252,7 +253,7 @@ public class Player extends PlayableChar implements EventListener {
         double dy = Mouse.getY() - Game.getWindowHeight()/2;// so divide screen size by 2 to get center
         double dir = Math.atan2(dy, dx); //atan2() receives y first, atan2 doesn't divide by 0, atan does
         shoot(x,y, dir); //x nd y are player position(where projectile originates)
-        fireRate = WizardProjectile.FIRE_RATE; // Reset fire rate after shooting
+        fireRate = PlayerProjectile.FIRE_RATE; // Reset fire rate after shooting
 
     }
 
@@ -264,7 +265,7 @@ public class Player extends PlayableChar implements EventListener {
             double dy = Mouse.getY() - Game.getWindowHeight()/2;// so divide screen size by 2 to get center
             double dir = Math.atan2(dy, dx); //atan2() receives y first, atan2 doesn't divide by 0, atan does
             shoot(x,y, dir); //x nd y are player position(where projectile originates)
-            fireRate = WizardProjectile.FIRE_RATE; // Reset fire rate after shooting
+            fireRate = PlayerProjectile.FIRE_RATE; // Reset fire rate after shooting
             return true; // true means it's been handled, others won't do it
         }
         return false;
