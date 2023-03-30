@@ -47,7 +47,8 @@ public class Player extends PlayableChar implements EventListener {
     private UIManager ui;
     private UIProgressBar uiHealthBar,uiManaBar,uiExperienceBar;
     private UIButton button;
-    private UIButtonPortal buttonPortal = new UIButtonPortal(new Vector2i(10, 400), new Vector2i(40, 30)){               @Override
+    private UIButtonPortal buttonPortal = new UIButtonPortal(new Vector2i(100, 400), new Vector2i(150, 30)){
+        @Override
         public void pressed (UIButton button){
             button.setColor(0xededed);
             button.action(button);
@@ -103,7 +104,7 @@ public class Player extends PlayableChar implements EventListener {
 
 
         // XP Bar
-        uiExperienceBar = new UIProgressBar(new Vector2i(10,210), new Vector2i(80 * Game.scale- 20,20)); // 80 * 3 is full length, -20for 10 px on each side
+        uiExperienceBar = new UIProgressBar(new Vector2i(25,210), new Vector2i(310,30)); // 80 * 3 is full length, -20for 10 px on each side
         uiExperienceBar.setColor(0x6a6a6a); // 0x5f5f5f is slightly darker
         uiExperienceBar.setForegroundColor(0x32AD34);
         panel.addComponent(uiExperienceBar);
@@ -115,7 +116,7 @@ public class Player extends PlayableChar implements EventListener {
         panel.addComponent(xpLabel);
 
         // HP Bar
-        uiHealthBar = new UIProgressBar(new Vector2i(10,235), new Vector2i(80 * Game.scale - 20,20)); // 80 * 3 is full length, -20for 10 px on each side
+        uiHealthBar = new UIProgressBar(new Vector2i(25,245), new Vector2i(310,30)); // 80 * 3 is full length, -20for 10 px on each side
         uiHealthBar.setColor(0x6a6a6a); // 0x5f5f5f is slightly darker
         uiHealthBar.setForegroundColor(0xdd3030);
         panel.addComponent(uiHealthBar);
@@ -127,7 +128,7 @@ public class Player extends PlayableChar implements EventListener {
         panel.addComponent(hpLabel);
 
         // MP Bar
-        uiManaBar = new UIProgressBar(new Vector2i(10,260), new Vector2i(80 * Game.scale - 20,20)); // 80 * 3 is full length, -20for 10 px on each side
+        uiManaBar = new UIProgressBar(new Vector2i(25,280), new Vector2i(310,30)); // 80 * 3 is full length, -20for 10 px on each side
         uiManaBar.setColor(0x6a6a6a); // 0x5f5f5f is slightly darker
         uiManaBar.setForegroundColor(0xB14CFF); // Some colours make it get a +1 x offset for some reason, avoid blue I guess
         panel.addComponent(uiManaBar);
@@ -143,7 +144,7 @@ public class Player extends PlayableChar implements EventListener {
         this.health = 90;
         this.mana = 80;
         this.experience = 10;
-
+/*
         button = new UIButton(new Vector2i(10, 300), new Vector2i(40, 30)){
             @Override
             public void pressed (UIButton button){
@@ -159,7 +160,7 @@ public class Player extends PlayableChar implements EventListener {
         };
         button.setText("Hello!");
         panel.addComponent(button);
-
+*/
         // IMG Btn
 
         try {
