@@ -93,7 +93,7 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
             players.get(i).tick();
             if(players.get(i).isRemoved()) players.remove(i);
         }
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).tick();
             if(enemies.get(i).isRemoved()) enemies.remove(i);
         }
@@ -152,30 +152,28 @@ public class Level extends Layer { // Level is a layer, UI is another(?)
         return false;
     }
 
-    public boolean enemyCollision(int x, int y, int size, int xOffset, int yOffset) {
+    public Enemy enemyCollision(int x, int y, int size, int xOffset, int yOffset) {
         for (int c = 0; c < 4; c++){ // Checks 4 corners
             int xt = (x - c % 2 * size + xOffset) >> 4;// c % 2 will alternate between 0 and 1 depending on corner
             int yt = (y - c / 2 * size + yOffset) >> 4;// >> 4 = / 16, but faster
             Enemy enemy = getEnemyAtPosition(xt, yt);
             if(enemy != null){
-                enemy.takeDamage();
-                return true;
+                return enemy;
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean playerCollision(int x, int y, int size, int xOffset, int yOffset) {
+    public PlayableChar playerCollision(int x, int y, int size, int xOffset, int yOffset) {
         for (int c = 0; c < 4; c++){ // Checks 4 corners
             int xt = (x - c % 2 * size + xOffset) >> 4;// c % 2 will alternate between 0 and 1 depending on corner
             int yt = (y - c / 2 * size + yOffset) >> 4;// >> 4 = / 16, but faster
             PlayableChar player = getPlayerAtPosition(xt, yt);
             if(player != null){
-                player.takeDamage();
-                return true;
+                return player;
             }
         }
-        return false;
+        return null;
     }
 
 

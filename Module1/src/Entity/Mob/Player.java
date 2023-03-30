@@ -1,8 +1,7 @@
 package Entity.Mob;
-
-import Entity.Projectile.EnemyProjectile;
 import Entity.Projectile.Projectile;
 import Entity.Projectile.PlayerProjectile;
+import Entity.Spawner.ParticleSpawner;
 import Events.Event;
 import Events.EventDisptcher;
 import Events.EventListener;
@@ -311,7 +310,17 @@ public class Player extends PlayableChar implements EventListener {
     }
 
     @Override
-    public void takeDamage() {
+    public void takeDamage(int damage) {
+        level.add(new ParticleSpawner(x, y, 50, 10, level, Sprite.particle_red));
+        if (health <= damage){
+            remove();
+            return;
+        }
+        health -= damage;
+    }
+
+    @Override
+    public void remove() {
 
     }
 

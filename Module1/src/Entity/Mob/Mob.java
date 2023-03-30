@@ -1,9 +1,6 @@
 package Entity.Mob;
 
 import Entity.Entity;
-import Entity.Projectile.EnemyProjectile;
-import Entity.Projectile.Projectile;
-import Entity.Projectile.PlayerProjectile;
 import Graphics.Screen;
 
 
@@ -18,7 +15,7 @@ public abstract class Mob extends Entity {
     public abstract void tick();
     public abstract void render(Screen screen);
 
-    public abstract void takeDamage();
+    public abstract void takeDamage(int damage);
 
     protected enum Direction{
         UP,DOWN,LEFT,RIGHT;

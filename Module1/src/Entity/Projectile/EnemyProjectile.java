@@ -1,5 +1,6 @@
 package Entity.Projectile;
 
+import Entity.Mob.PlayableChar;
 import Entity.Spawner.ParticleSpawner;
 import Graphics.Screen;
 import Graphics.Sprite;
@@ -7,13 +8,13 @@ import Graphics.Sprite;
 public class EnemyProjectile extends Projectile{
 
     public static final int FIRE_RATE = 15; // Higher rate is slower
+    public static final int DAMAGE = 10; // Higher rate is slower
 
     public EnemyProjectile(double x, double y, double dir) {
         super(x, y, dir);
         //range = random.nextInt(50) + 50; // Range between 50 and 100
         range = 100;
         speed = 4;
-        damage = 20;
         //rateOfFire = 15;
         sprite = Sprite.rotate(Sprite.projectile_arrow, angle); // Rotate only once, ep 113
         // Vector maths
@@ -24,9 +25,15 @@ public class EnemyProjectile extends Projectile{
     //private int time = 0; // part of recurring rotation, ep 113
 
     public void tick() {
-        if (level.tileCollision((int) (x + newX),(int) (y + newY),7, 4, 4) || level.playerCollision((int) (x + newX),(int) (y + newY),7, 4, 4)){ //offset is pixels to margin of cell
+        if (level.tileCollision((int) (x + newX),(int) (y + newY),7, 4, 4)){ //offset is pixels to margin of cell
             level.add(new ParticleSpawner((int)x, (int)y, 50, 10, level));
             remove(); //ball projectile thing is 7 by 7
+        }else{
+            PlayableChar player = level.playerCollision((int) (x + newX),(int) (y + newY),7, 4, 4);
+            if(player != null){
+                player.takeDamage(DAMAGE);
+                remove();
+            }
         }
         //TODO If want the projective to rotate as it travels, do this
         /*

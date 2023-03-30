@@ -13,7 +13,7 @@ public abstract class Projectile extends Entity {
     protected double x,y; // Need both directional and positional input to be doubles for proper precision when shooting
     protected double newX,newY;
     protected double distance; // Travelled distance from origin
-    protected double speed, range, damage; //,rateOfFire
+    protected double speed, range; //,rateOfFire
 
     protected final Random random = new Random(); // For weapons with random range
 

@@ -1,4 +1,5 @@
 package Entity.Projectile;
+import Entity.Mob.Enemy;
 import Graphics.Screen;
 import Graphics.Sprite;
 
@@ -7,13 +8,14 @@ import Entity.Spawner.ParticleSpawner;
 public class PlayerProjectile extends Projectile{
 
     public static final int FIRE_RATE = 15; // Higher rate is slower
+    private static int DAMAGE;
 
-    public PlayerProjectile(double x, double y, double dir) {
+    public PlayerProjectile(double x, double y, double dir, int damge) {
         super(x, y, dir);
         //range = random.nextInt(50) + 50; // Range between 50 and 100
         range = 100;
         speed = 4;
-        damage = 20;
+        DAMAGE = damge;
         //rateOfFire = 15;
         sprite = Sprite.rotate(Sprite.projectile_arrow, angle); // Rotate only once, ep 113
         // Vector maths
@@ -24,10 +26,16 @@ public class PlayerProjectile extends Projectile{
     //private int time = 0; // part of recurring rotation, ep 113
 
     public void tick() {
-        if (level.tileCollision((int) (x + newX),(int) (y + newY),7, 4, 4) || level.enemyCollision((int) (x + newX),(int) (y + newY),7, 4, 4)){ //offset is pixels to margin of cell
-            level.add(new ParticleSpawner((int)x, (int)y, 50, 10, level, Sprite.particle_red));
+        if (level.tileCollision((int) (x + newX),(int) (y + newY),7, 4, 4)){ //offset is pixels to margin of cell
+            level.add(new ParticleSpawner((int)x, (int)y, 50, 10, level, Sprite.particle_normal));
             remove(); //ball projectile thing is 7 by 7
+        }else{
+             Enemy enemy = level.enemyCollision((int) (x + newX),(int) (y + newY),7, 4, 4);
+            if (enemy != null){
+                enemy.takeDamage(DAMAGE);
+            }
         }
+
         //TODO If want the projective to rotate as it travels, do this
         /*
         time ++;

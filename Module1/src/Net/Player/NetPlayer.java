@@ -20,7 +20,7 @@ public class NetPlayer extends PlayableChar {
     }
 
     @Override
-    public void takeDamage() {
+    public void takeDamage(int damage) {
 
     }
 }

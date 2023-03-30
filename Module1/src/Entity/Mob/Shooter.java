@@ -3,12 +3,11 @@ package Entity.Mob;
 import Entity.Entity;
 import Entity.Projectile.EnemyProjectile;
 import Entity.Projectile.PlayerProjectile;
-import Game.Game;
+import Entity.Spawner.ParticleSpawner;
 import Graphics.AnimatedSprite;
 import Graphics.Screen;
 import Graphics.Sprite;
 import Graphics.Spritesheet;
-import Input.Mouse;
 import Utils.Debug;
 import Utils.Vector2i;
 
@@ -32,6 +31,7 @@ public class Shooter extends Enemy{
     public Shooter (int x, int y){
         this.x = x << 4;
         this.y = y << 4;
+        this.health = 90;
         sprite = Sprite.mob_forward;
         fireRate = EnemyProjectile.FIRE_RATE;
         // TODO move the shooting set to tick function on this class, after checking in players in range
@@ -70,7 +70,7 @@ public class Shooter extends Enemy{
         }
 
         if (xa != 0 || ya != 0) {
-            //move(xa, ya);
+            move(xa, ya);
             walking = true;
         }else walking = false;
 
@@ -155,5 +155,12 @@ public class Shooter extends Enemy{
         Debug.drawRect(screen, 17 * 16, 57 * 16, 100, 40, true);
         // TODO the offset should be based on shooting dir so that shots don't insta collide if mob is hugging wall
         screen.renderMob(x - 16,y -16,this); // -16 as offset to center mob
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        level.add(new ParticleSpawner(x, y, 50, 10, level, Sprite.particle_green));
+        if (health <= damage) remove();
+        health -= damage;
     }
 }

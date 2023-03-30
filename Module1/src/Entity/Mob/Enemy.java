@@ -25,7 +25,7 @@ public class Enemy extends Mob{
     }
 
     @Override
-    public void takeDamage() {
+    public void takeDamage(int damage) {
 
     }
 
