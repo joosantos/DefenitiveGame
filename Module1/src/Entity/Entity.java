@@ -28,11 +28,10 @@ public class Entity {
     }
 
     public void render(Screen screen){
-        if(sprite != null) screen.renderSprite((int) x, (int) y, sprite, true); // Casting it to int auto rounds down
+        if(sprite != null) screen.renderSprite(x, y, sprite, true); // Casting it to int auto rounds down
     }
 
-    public void remove(){
-        //remove from level
+    public void remove(){ //remove from level
         removed = true;
     }
 
@@ -50,9 +49,6 @@ public class Entity {
 
     public void init(Level level){
         this.level = level;
-    }
-
-    public class Spawner {
     }
 
     public Sprite getSprite(){
