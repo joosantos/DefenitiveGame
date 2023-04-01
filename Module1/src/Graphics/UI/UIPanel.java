@@ -22,7 +22,6 @@ public class UIPanel extends UIComponent{
     }
 
     public void removeComponent(UIComponent component){
-        //component.init(this);
         components.remove(component);
     }
 

@@ -46,6 +46,7 @@ public class Player extends PlayableChar implements EventListener {
 
     private UIManager ui;
     private UIProgressBar uiHealthBar,uiManaBar,uiExperienceBar;
+    private UIInventory inventory;
     private UIButton button;
     private UIButtonPortal buttonPortal = new UIButtonPortal(new Vector2i(100, 400), new Vector2i(150, 30)){
         @Override
@@ -144,6 +145,9 @@ public class Player extends PlayableChar implements EventListener {
         this.health = 90;
         this.mana = 80;
         this.experience = 10;
+
+        // Inventory
+        inventory = new UIInventory(panel, new Vector2i(25,330), new Vector2i(30,30), 8);
 /*
         button = new UIButton(new Vector2i(10, 300), new Vector2i(40, 30)){
             @Override
