@@ -2,6 +2,8 @@ package Graphics.UI;
 import Items.Container;
 import Utils.Vector2i;
 
+import java.awt.*;
+
 
 public class UIInventory{
 
@@ -15,7 +17,9 @@ public class UIInventory{
 
     private void buildRow(UIPanel panel, Vector2i position, Vector2i size, int offset, int numBtns, int startingNum){
         for (int i = startingNum; i < numBtns; i++) {
-            slots[i] = new UIButton(position.add(new Vector2i((offset+ size.x),0)), size);
+            Vector2i btnPosition = new Vector2i(position.add(new Vector2i((offset + size.x),0)));
+            slots[i] = new UIButton(btnPosition, size);
+            //slots[i].color = new Color(0xffff00);
             slots[i].setText(String.valueOf(i + 1));
             panel.addComponent(slots[i]);
         }

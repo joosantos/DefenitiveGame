@@ -112,6 +112,7 @@ public class UIButton extends UIComponent implements UIButtonListener{
 
     @Override // from interface
     public void action(UIButton button) {
-
+        //TODO remove this
+        System.out.println("pressed");
     }
 }
